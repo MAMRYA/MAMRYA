@@ -78,7 +78,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .btn__arrow{ color:#c0dd97 }
 
 .iconbtn{ color:var(--ink-40); font-size:var(--fz-l); line-height:1; padding:2px 4px }
-.label{ font-size:var(--fz-s); color:var(--ink-28); letter-spacing:.16em }
+.label{ font-size:var(--fz-s); color:var(--ink-28); letter-spacing:.16em; display:block; margin-bottom:5px }
 
 /* --- 1. 대문 ---------------------------------------------------- */
 .gate{
@@ -139,8 +139,8 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   border-radius:14px; padding:7px 0;
   display:flex; flex-direction:column; align-items:center; gap:9px;
 }
-.rail__mark{ width:17px; height:17px; border-radius:5px; background:var(--moss); flex:0 0 auto }
-.rail__btn{ color:var(--ink-28); display:grid; place-items:center; width:20px; height:20px }
+.rail__mark{ width:19px; height:19px; border-radius:6px; background:var(--moss); flex:0 0 auto; margin-bottom:2px }
+.rail__btn{ color:var(--ink-28); display:grid; place-items:center; width:100%; height:22px }
 .rail__btn.is-on{ color:var(--moss-deep) }
 
 /* 본문 */
@@ -157,30 +157,30 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .side{
   width:168px; flex:0 0 auto; overflow:hidden;
   background:var(--glass); border:1px solid rgba(255,255,255,.65);
-  border-radius:var(--r-card); padding:9px;
-  display:flex; flex-direction:column; gap:9px;
+  border-radius:var(--r-card); padding:11px;
+  display:flex; flex-direction:column; gap:13px;
 }
 .side__photo{
   aspect-ratio:3/4; flex:0 0 auto; border-radius:7px;
   background:rgba(255,255,255,.55) center/cover no-repeat;
   display:grid; place-items:center; color:var(--ink-28); font-size:var(--fz-s);
 }
-.side__title{ letter-spacing:.06em }
+.side__title{ letter-spacing:.06em; margin-bottom:2px }
 .side__sub{ font-size:var(--fz-s); color:var(--ink-40) }
-.side__rows{ display:grid; gap:2px }
+.side__rows{ display:grid; gap:5px }
 .side__rows > div{ display:flex; gap:6px }
 .side__rows dt{ width:52px; flex:0 0 auto; color:var(--ink-40); font-size:var(--fz-s) }
 .side__rows dd{ color:var(--ink-75); font-size:var(--fz-s) }
 .tiles{ display:flex; gap:5px }
 .tile{
-  flex:1; text-align:center; padding:6px 4px; border-radius:var(--r-sm);
+  flex:1; text-align:center; padding:8px 4px; border-radius:var(--r-sm);
   background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.75);
 }
 .tile b{ display:block; font-weight:500; font-size:var(--fz) }
 .tile span{ display:block; font-size:var(--fz-s); color:var(--ink-40) }
 .nowbox{
   background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.75);
-  border-radius:var(--r-sm); padding:6px 8px; display:flex; align-items:center; gap:7px;
+  border-radius:var(--r-sm); padding:8px 9px; display:flex; align-items:center; gap:7px;
 }
 .nowbox__t{ min-width:0; flex:1 }
 .nowbox__t b{ display:block; font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
@@ -217,7 +217,6 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .sect__more{ color:rgba(59,109,17,.75) }
 
 .posters{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:6px }
-.poster__img{ max-height:210px }
 .poster__img{ aspect-ratio:3/4; border-radius:6px; background:var(--cream) center/cover no-repeat }
 .poster:nth-child(2) .poster__img{ background-color:var(--leaf) }
 .poster:nth-child(3) .poster__img{ background-color:var(--butter) }
@@ -350,14 +349,14 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   box-shadow:0 5px 14px rgba(23,52,4,.18);
   display:flex; align-items:center; gap:7px; color:var(--ink-75);
 }
-.fab--music{ left:12px; width:34px; height:34px; border-radius:50%; justify-content:center }
+.fab--music{ left:12px; width:36px; height:36px; border-radius:50%; justify-content:center }
 .fab--music.is-on{ background:rgba(23,52,4,.85); color:#c0dd97 }
-.fab--talk{ right:12px; border-radius:18px; padding:7px 13px 7px 10px }
-.fab__text{ font-size:var(--fz-s) }
+.fab--talk{ right:12px; width:36px; height:36px; border-radius:50%; justify-content:center }
+.fab__text{ display:none }
 
 /* --- 재생 패널 --------------------------------------------------- */
 .player{
-  position:absolute; left:12px; bottom:54px; z-index:6; width:190px;
+  position:absolute; left:12px; bottom:58px; z-index:6; width:232px;
   background:rgba(255,255,255,.86); border:1px solid rgba(255,255,255,.95);
   backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   border-radius:12px; box-shadow:0 10px 24px rgba(23,52,4,.22); padding:11px 12px;
@@ -369,16 +368,16 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .player__track{ height:3px; background:var(--ink-12); border-radius:2px; overflow:hidden; margin:9px 0 5px; cursor:pointer }
 .player__fill{ display:block; height:100%; width:0; background:var(--moss) }
 .player__time{ display:flex; justify-content:space-between; font-size:var(--fz-s); color:var(--ink-28) }
-.player__ctrl{ display:flex; align-items:center; justify-content:center; gap:18px; margin-top:9px }
-.playbtn{ width:32px; height:32px; border-radius:50%; background:rgba(23,52,4,.85); color:var(--leaf); display:grid; place-items:center }
+.player__ctrl{ display:flex; align-items:center; justify-content:center; gap:22px; margin-top:12px }
+.playbtn{ width:38px; height:38px; border-radius:50%; background:rgba(23,52,4,.85); color:var(--leaf); display:grid; place-items:center }
 
 /* --- 대화창 ------------------------------------------------------ */
 .talk{
-  position:absolute; right:12px; bottom:54px; z-index:6; width:214px;
+  position:absolute; right:12px; bottom:58px; z-index:6; width:268px;
   background:rgba(255,255,255,.9); border:1px solid rgba(255,255,255,.95);
   backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   border-radius:12px; box-shadow:0 10px 26px rgba(23,52,4,.22);
-  display:flex; flex-direction:column; overflow:hidden; max-height:min(320px,70%);
+  display:flex; flex-direction:column; overflow:hidden; height:min(380px,72%);
 }
 .talk__head{ display:flex; align-items:center; gap:7px; padding:8px 10px; border-bottom:1px solid var(--ink-07) }
 .talk__on{ width:6px; height:6px; border-radius:50%; background:var(--moss) }
@@ -389,7 +388,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .talk__log::-webkit-scrollbar-thumb{ background:var(--ink-12); border-radius:3px }
 .bub{ max-width:88%; }
 .bub__who{ font-size:var(--fz-s); color:var(--ink-28); margin-left:3px }
-.bub__body{ padding:6px 10px; margin-top:2px; font-size:var(--fz-s); line-height:1.65 }
+.bub__body{ padding:7px 11px; margin-top:3px; font-size:var(--fz); line-height:1.65 }
 .bub--l{ align-self:flex-start }
 .bub--l .bub__body{ background:#fff; border:1px solid var(--ink-07); border-radius:3px 11px 11px 11px; color:var(--ink-75) }
 .bub--r{ align-self:flex-end }
@@ -484,7 +483,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
     backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
     border-radius:18px; box-shadow:0 5px 14px rgba(23,52,4,.18); padding:7px 14px;
   }
-  .dock__btn{ color:var(--ink-28); display:grid; place-items:center }
+  .dock__btn{ color:var(--ink-28); display:grid; place-items:center; width:22px; height:22px }
   .dock__btn.is-on{ color:var(--moss-deep) }
 
   .fab--talk{ width:34px; height:34px; border-radius:50%; padding:0; justify-content:center }
@@ -498,7 +497,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 
 /* --- 알림 -------------------------------------------------------- */
 .toast{
-  position:absolute; right:12px; bottom:56px; z-index:7; width:214px;
+  position:absolute; right:12px; bottom:58px; z-index:7; width:252px;
   background:rgba(255,255,255,.92); border:1px solid rgba(255,255,255,.95);
   backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   border-radius:12px; box-shadow:0 10px 24px rgba(23,52,4,.24);
