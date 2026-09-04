@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAMRYA</title>
+<meta name="description" content="온마음 &amp; 김리안">
+<meta property="og:title" content="MAMRYA">
+<meta property="og:description" content="온마음 &amp; 김리안">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- 배경 -->
+<div class="bg" id="bg"></div>
+
+<!-- 1. 대문 티켓 -->
+<div class="gate" id="gate">
+  <div class="ticket">
+    <div class="ticket__bar">
+      <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+      <span class="ticket__barlabel">ticket</span>
+    </div>
+    <div class="ticket__head">
+      <p class="ticket__eyebrow">ONLINE TICKET</p>
+      <p class="ticket__title" id="gateTitle">MAMRYA</p>
+      <p class="ticket__sub" id="gateSub">musical</p>
+    </div>
+    <dl class="ticket__rows" id="gateRows"></dl>
+    <div class="ticket__perf"><span class="notch notch--l"></span><span class="notch notch--r"></span></div>
+    <div class="ticket__foot">
+      <div class="barcode" id="gateBarcode" aria-hidden="true"></div>
+      <p class="ticket__no" id="gateNo"></p>
+      <button class="btn btn--dark btn--full" id="enterBtn" type="button">
+        입장하기 <span class="btn__arrow" aria-hidden="true">→</span>
+      </button>
+      <p class="ticket__hint">입장하면 음악이 재생됩니다</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 본 화면 -->
+<div class="app" id="app" hidden>
+  <div class="win">
+
+    <!-- 창 상단 -->
+    <header class="win__bar">
+      <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+      <span class="urlbar"><span class="urlbar__lock" aria-hidden="true">🔒</span><span id="urlText"></span></span>
+    </header>
+
+    <!-- 모바일 전용 정보 서랍 -->
+    <details class="drawer" id="drawer">
+      <summary class="drawer__head">
+        <span class="drawer__label">INFORMATION</span>
+        <span class="drawer__chev" aria-hidden="true"></span>
+      </summary>
+      <div class="drawer__body" id="drawerBody"></div>
+    </details>
+
+    <div class="win__body">
+
+      <!-- PC 좌측 레일 -->
+      <nav class="rail" id="rail" aria-label="페이지 이동">
+        <span class="rail__mark" aria-hidden="true"></span>
+        <button class="rail__btn is-on" data-go="home" type="button" aria-label="홈"><span class="ico ico-home"></span></button>
+        <button class="rail__btn" data-go="booking" type="button" aria-label="예매"><span class="ico ico-ticket"></span></button>
+        <button class="rail__btn" data-go="calendar" type="button" aria-label="캘린더"><span class="ico ico-cal"></span></button>
+        <button class="rail__btn" data-go="cast" type="button" aria-label="캐스트"><span class="ico ico-cast"></span></button>
+      </nav>
+
+      <!-- 본문 -->
+      <main class="view" id="view" tabindex="-1"></main>
+
+      <!-- PC 우측 정보창 -->
+      <aside class="side" id="side"></aside>
+
+    </div>
+
+    <!-- 모바일 하단 레일 -->
+    <nav class="dock" id="dock" aria-label="페이지 이동">
+      <button class="dock__btn is-on" data-go="home" type="button" aria-label="홈"><span class="ico ico-home"></span></button>
+      <button class="dock__btn" data-go="booking" type="button" aria-label="예매"><span class="ico ico-ticket"></span></button>
+      <button class="dock__btn" data-go="calendar" type="button" aria-label="캘린더"><span class="ico ico-cal"></span></button>
+      <button class="dock__btn" data-go="cast" type="button" aria-label="캐스트"><span class="ico ico-cast"></span></button>
+    </nav>
+
+    <!-- 음악 버튼 + 패널 -->
+    <button class="fab fab--music" id="musicFab" type="button" aria-label="음악"><span class="ico ico-music"></span></button>
+    <div class="player" id="player" hidden>
+      <div class="player__head">
+        <span class="player__label">NOW PLAYING</span>
+        <button class="iconbtn" id="playerClose" type="button" aria-label="닫기">×</button>
+      </div>
+      <p class="player__title" id="playerTitle">—</p>
+      <p class="player__meta" id="playerMeta">MAMRYA</p>
+      <div class="player__track" id="playerTrack"><span class="player__fill" id="playerFill"></span></div>
+      <div class="player__time"><span id="playerCur">0:00</span><span id="playerDur">0:00</span></div>
+      <div class="player__ctrl">
+        <button class="iconbtn" id="prevBtn" type="button" aria-label="이전 곡">‹‹</button>
+        <button class="playbtn" id="playBtn" type="button" aria-label="재생"><span id="playIcon">▶</span></button>
+        <button class="iconbtn" id="nextBtn" type="button" aria-label="다음 곡">››</button>
+      </div>
+    </div>
+
+    <!-- 대화 버블 + 창 -->
+    <button class="fab fab--talk" id="talkFab" type="button" aria-label="두 사람의 대화">
+      <span class="ico ico-talk"></span><span class="fab__text">두 사람의 대화</span>
+    </button>
+    <div class="talk" id="talk" hidden>
+      <div class="talk__head">
+        <span class="talk__on" aria-hidden="true"></span>
+        <span class="talk__who" id="talkWho">온마음 · 김리안</span>
+        <button class="iconbtn" id="talkClose" type="button" aria-label="닫기">×</button>
+      </div>
+      <div class="talk__log" id="talkLog"></div>
+      <form class="talk__form" id="talkForm">
+        <input class="talk__input" id="talkInput" type="text" placeholder="말을 걸어보세요" autocomplete="off">
+        <button class="talk__send" type="submit" aria-label="보내기">↑</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- 사진 확대 -->
+<div class="lightbox" id="lightbox" hidden>
+  <figure class="lightbox__frame" id="lightboxFrame">
+    <button class="lightbox__close" id="lightboxClose" type="button" aria-label="닫기">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" type="button" aria-label="이전">‹</button>
+    <button class="lightbox__nav lightbox__nav--next" id="lbNext" type="button" aria-label="다음">›</button>
+    <div class="lightbox__img" id="lbImg"></div>
+    <figcaption class="lightbox__info" id="lbInfo"></figcaption>
+  </figure>
+</div>
+
+<audio id="audio" preload="none"></audio>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
