@@ -65,11 +65,11 @@
 
       <!-- PC 좌측 레일 -->
       <nav class="rail" id="rail" aria-label="페이지 이동">
-        <span class="rail__mark" aria-hidden="true"></span>
-        <button class="rail__btn is-on" data-go="home" type="button" aria-label="홈"><span class="ico ico-home"></span></button>
-        <button class="rail__btn" data-go="booking" type="button" aria-label="예매"><span class="ico ico-ticket"></span></button>
-        <button class="rail__btn" data-go="calendar" type="button" aria-label="캘린더"><span class="ico ico-cal"></span></button>
-        <button class="rail__btn" data-go="cast" type="button" aria-label="캐스트"><span class="ico ico-cast"></span></button>
+        <span class="rail__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20v-8m0 0C9 12 6 10 6 6c4 0 6 2 6 6zm0 0c3 0 6-2 6-6-4 0-6 2-6 6z"/></svg></span>
+        <button class="rail__btn is-on" data-go="home" type="button" aria-label="홈"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></button>
+        <button class="rail__btn" data-go="calendar" type="button" aria-label="캘린더"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M4 10h16M8.5 3v4M15.5 3v4"/></svg></button>
+        <button class="rail__btn" data-go="cast" type="button" aria-label="캐스트"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 7.5a3 3 0 0 1 0 5.6M17.5 15c2.4.5 3.5 2.2 3.5 5"/></svg></button>
+        <button class="rail__btn" data-go="booking" type="button" aria-label="예매"><svg viewBox="0 0 24 24"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h13A1.5 1.5 0 0 1 20 8.5v2a2 2 0 0 0 0 3.9v2A1.5 1.5 0 0 1 18.5 18h-13A1.5 1.5 0 0 1 4 16.4v-2a2 2 0 0 0 0-3.9z"/><path d="M14 7v11" stroke-dasharray="2 2"/></svg></button>
       </nav>
 
       <!-- 본문 -->
@@ -82,14 +82,14 @@
 
     <!-- 모바일 하단 레일 -->
     <nav class="dock" id="dock" aria-label="페이지 이동">
-      <button class="dock__btn is-on" data-go="home" type="button" aria-label="홈"><span class="ico ico-home"></span></button>
-      <button class="dock__btn" data-go="booking" type="button" aria-label="예매"><span class="ico ico-ticket"></span></button>
-      <button class="dock__btn" data-go="calendar" type="button" aria-label="캘린더"><span class="ico ico-cal"></span></button>
-      <button class="dock__btn" data-go="cast" type="button" aria-label="캐스트"><span class="ico ico-cast"></span></button>
+      <button class="dock__btn is-on" data-go="home" type="button" aria-label="홈"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></button>
+      <button class="dock__btn" data-go="calendar" type="button" aria-label="캘린더"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M4 10h16M8.5 3v4M15.5 3v4"/></svg></button>
+      <button class="dock__btn" data-go="cast" type="button" aria-label="캐스트"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 7.5a3 3 0 0 1 0 5.6M17.5 15c2.4.5 3.5 2.2 3.5 5"/></svg></button>
+      <button class="dock__btn" data-go="booking" type="button" aria-label="예매"><svg viewBox="0 0 24 24"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h13A1.5 1.5 0 0 1 20 8.5v2a2 2 0 0 0 0 3.9v2A1.5 1.5 0 0 1 18.5 18h-13A1.5 1.5 0 0 1 4 16.4v-2a2 2 0 0 0 0-3.9z"/><path d="M14 7v11" stroke-dasharray="2 2"/></svg></button>
     </nav>
 
     <!-- 음악 버튼 + 패널 -->
-    <button class="fab fab--music" id="musicFab" type="button" aria-label="음악"><span class="ico ico-music"></span></button>
+    <button class="fab fab--music" id="musicFab" type="button" aria-label="음악"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></button>
     <div class="player" id="player" hidden>
       <div class="player__head">
         <span class="player__label">NOW PLAYING</span>
@@ -108,7 +108,7 @@
 
     <!-- 대화 버블 + 창 -->
     <button class="fab fab--talk" id="talkFab" type="button" aria-label="두 사람의 대화">
-      <span class="ico ico-talk"></span><span class="fab__text">두 사람의 대화</span>
+      <svg viewBox="0 0 24 24"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3v-4.5A7 7 0 0 1 6 6.5 7 7 0 0 1 13 5a7 7 0 0 1 7 7z"/></svg><span class="fab__text">두 사람의 대화</span>
     </button>
     <div class="talk" id="talk" hidden>
       <div class="talk__head">
