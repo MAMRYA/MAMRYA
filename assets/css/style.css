@@ -113,9 +113,9 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .barcode i{ display:block; background:rgba(23,52,4,.6); height:100% }
 
 /* --- 2. 본 화면 -------------------------------------------------- */
-.app{ position:relative; z-index:2; height:100%; padding:14px; display:flex }
+.app{ position:relative; z-index:2; height:100%; padding:18px; display:flex; align-items:center; justify-content:center }
 .win{
-  position:relative; flex:1; min-width:0; display:flex; flex-direction:column;
+  position:relative; width:min(100%,1120px); height:min(100%,720px); display:flex; flex-direction:column;
   background:rgba(255,255,255,.5);
   backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
   border:1px solid rgba(255,255,255,.6); border-radius:var(--r-win);
@@ -155,13 +155,13 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 
 /* 우측 정보창 */
 .side{
-  width:136px; flex:0 0 auto; overflow:hidden;
+  width:168px; flex:0 0 auto; overflow:hidden;
   background:var(--glass); border:1px solid rgba(255,255,255,.65);
-  border-radius:var(--r-card); padding:8px;
-  display:flex; flex-direction:column; gap:7px;
+  border-radius:var(--r-card); padding:9px;
+  display:flex; flex-direction:column; gap:9px;
 }
 .side__photo{
-  flex:1; min-height:60px; border-radius:6px;
+  aspect-ratio:3/4; flex:0 0 auto; border-radius:7px;
   background:rgba(255,255,255,.55) center/cover no-repeat;
   display:grid; place-items:center; color:var(--ink-28); font-size:var(--fz-s);
 }
@@ -169,7 +169,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .side__sub{ font-size:var(--fz-s); color:var(--ink-40) }
 .side__rows{ display:grid; gap:2px }
 .side__rows > div{ display:flex; gap:6px }
-.side__rows dt{ width:46px; flex:0 0 auto; color:var(--ink-40); font-size:var(--fz-s) }
+.side__rows dt{ width:52px; flex:0 0 auto; color:var(--ink-40); font-size:var(--fz-s) }
 .side__rows dd{ color:var(--ink-75); font-size:var(--fz-s) }
 .tiles{ display:flex; gap:5px }
 .tile{
@@ -216,7 +216,8 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .sect__label{ font-size:var(--fz-s); color:var(--ink-40); display:flex; justify-content:space-between; align-items:baseline }
 .sect__more{ color:rgba(59,109,17,.75) }
 
-.posters{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; margin-top:5px }
+.posters{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:6px }
+.poster__img{ max-height:210px }
 .poster__img{ aspect-ratio:3/4; border-radius:6px; background:var(--cream) center/cover no-repeat }
 .poster:nth-child(2) .poster__img{ background-color:var(--leaf) }
 .poster:nth-child(3) .poster__img{ background-color:var(--butter) }
@@ -332,15 +333,14 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .links a::after{ content:'↗'; margin-left:auto; color:var(--ink-28) }
 
 /* --- 아이콘 (문자 대체) ------------------------------------------ */
-.ico{ display:inline-block; width:1em; height:1em; font-size:15px; line-height:1 }
-.ico::before{ font-size:14px }
-.ico-home::before{ content:'⌂' }
-.ico-ticket::before{ content:'🎟' }
-.ico-cal::before{ content:'▤' }
-.ico-cast::before{ content:'👥' }
-.ico-music::before{ content:'♪' }
-.ico-talk::before{ content:'💬' }
-.rail__mark::before{ content:'✿'; color:var(--leaf); font-size:10px; display:grid; place-items:center; height:100% }
+/* 아이콘 (좌석표 SVG에는 영향을 주지 않도록 범위를 좁혔습니다) */
+.rail svg,.dock svg,.fab svg,.rail__mark svg{
+  width:16px; height:16px; display:block;
+  fill:none; stroke:currentColor; stroke-width:1.6;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.rail__mark{ display:grid; place-items:center; color:var(--leaf) }
+.rail__mark svg{ width:11px; height:11px; stroke-width:2 }
 
 /* --- 떠 있는 버튼 ------------------------------------------------ */
 .fab{
