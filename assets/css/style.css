@@ -42,6 +42,9 @@
 
 *,*::before,*::after{ box-sizing:border-box }
 
+/* 숨김 처리 — 이 규칙이 없으면 숨겨야 할 창이 계속 보입니다 */
+[hidden]{ display:none !important }
+
 html,body{ height:100% }
 body{
   margin:0;
