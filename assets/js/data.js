@@ -50,7 +50,7 @@ var DATA = {
       value: "4H 18M"
     }
   ],
-  since: "2023-04-09",
+  since: "2023-09-07",
   anniversaries: [
     {
       label: "리안 생일",
@@ -80,35 +80,35 @@ var DATA = {
       tag: "D-5 · 2ND OPEN",
       title: "MAMRYA",
       note: "09.07 월 14:00 오픈",
-      image: ""
+      image: "assets/img/해바라기 헤더.png"
     },
     {
       tag: "NOW ON STAGE",
       title: "여름의 한가운데",
       note: "~10.12 소극장",
-      image: ""
+      image: "assets/img/GW9p7JXaMAAR2lG.jpeg"
     }
   ],
   shows: [
     {
       title: "MAMRYA",
       note: "~09.30",
-      image: ""
+      image: "assets/img/GREsDehb0AAkabQ.jpeg"
     },
     {
       title: "여름의 한가운데",
       note: "~10.12",
-      image: ""
+      image: "assets/img/GXjtysfbIAAZZST.jpeg"
     },
     {
       title: "다시, 초가을",
       note: "11.01 개막",
-      image: ""
+      image: "assets/img/HEYeR97bgAAzwqt.jpeg"
     },
     {
       title: "겨울의 약속",
       note: "12.20 개막",
-      image: ""
+      image: "assets/img/IMG_8695.JPG"
     }
   ],
   numbers: [
