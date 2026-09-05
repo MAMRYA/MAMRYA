@@ -778,6 +778,14 @@
     applyTheme();
     var s = D.site || {};
     if (s.background) $('#bg').style.cssText = bgImg(s.background);
+    if (s.backgroundVideo) {
+      var v = $('#bgvid');
+      v.src = s.backgroundVideo;
+      v.hidden = false;
+      v.muted = true;
+      var vp = v.play();
+      if (vp && vp.catch) vp.catch(function () { v.hidden = true; });
+    }
     if (s.title) document.title = s.title;
     $('#urlText').textContent = s.url || '';
 
