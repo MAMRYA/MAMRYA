@@ -138,6 +138,8 @@
     if (t.infoGap != null) r.setProperty('--info-gap', t.infoGap + 'px');
     if (t.infoLine != null) r.setProperty('--info-line', t.infoLine);
     if (t.posterZoom != null) r.setProperty('--poster-zoom', t.posterZoom);
+    if (t.posterGap != null) r.setProperty('--poster-gap', t.posterGap + 'px');
+    if (t.posterPad != null) r.setProperty('--poster-pad', t.posterPad + 'px');
     if (t.windowW) r.setProperty('--win-w', t.windowW + 'px');
     if (t.windowH) r.setProperty('--win-h', t.windowH + 'px');
     if (t.glass != null) r.setProperty('--glass', 'rgba(255,255,255,' + t.glass + ')');

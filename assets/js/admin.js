@@ -137,6 +137,10 @@
     var g0f = grid(c0, 'g3');
     g0f.appendChild(field('포스터 확대 배율 (1이면 안 커짐)', T.posterZoom == null ? 1.1 : T.posterZoom,
       function (v) { T.posterZoom = Number(v); }, 'number'));
+    g0f.appendChild(field('포스터 사이 간격 (px)', T.posterGap == null ? 8 : T.posterGap,
+      function (v) { T.posterGap = Number(v); }, 'number'));
+    g0f.appendChild(field('포스터 좌우 여백 (px)', T.posterPad == null ? 20 : T.posterPad,
+      function (v) { T.posterPad = Number(v); }, 'number'));
     g0f.appendChild(selectField('배너 사진 위 그늘', T.bannerShade || 'dark',
       [['dark', '검정 (밝은 사진에 적합)'], ['light', '흰색 (어두운 사진에 적합)'], ['none', '없음']],
       function (v) { T.bannerShade = v; }));
