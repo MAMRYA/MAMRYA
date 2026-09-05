@@ -333,13 +333,18 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .pickbar__t span{ font-size:var(--fz-s); color:var(--ink-40) }
 .pickbar__go{ margin-left:auto; background:rgba(23,52,4,.85); color:var(--leaf); border-radius:var(--r-sm); padding:6px 13px; font-size:var(--fz-s) }
 
-.links{ display:flex; gap:5px; flex:0 0 auto; flex-wrap:wrap }
+.gapline{ height:6px; flex:0 0 auto }
+.links{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px;
+  flex:1 1 auto; min-height:76px; align-content:stretch;
+}
 .links a{
-  flex:1; min-width:96px; text-decoration:none; color:var(--ink-55);
+  text-decoration:none; color:var(--ink-55);
   background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.8);
-  border-radius:var(--r-sm); padding:5px 9px; font-size:var(--fz-s);
+  border-radius:var(--r-sm); padding:8px 11px; font-size:var(--fz-s);
   display:flex; align-items:center; gap:6px;
 }
+.links a:first-child{ grid-column:1 / -1 }
 .links a::after{ content:'↗'; margin-left:auto; color:var(--ink-28) }
 
 /* --- 아이콘 (문자 대체) ------------------------------------------ */
