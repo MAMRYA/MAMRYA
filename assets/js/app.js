@@ -88,6 +88,89 @@
     document.body.style.fontFamily = f.name + ",-apple-system,system-ui,sans-serif";
   }
 
+
+  /* ---------- 꽃잎 ---------- */
+  var Petals = {
+    on: false, raf: null, list: [], cv: null, cx: null, w: 0, h: 0,
+
+    start: function () {
+      var t = D.theme || {};
+      this.cv = $('#petals');
+      if (!this.cv || t.petals === false) { if (this.cv) this.cv.style.display = 'none'; return; }
+
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { this.cv.style.display = 'none'; return; }
+
+      this.cx = this.cv.getContext('2d');
+      this.on = true;
+      this.resize();
+      var self = this;
+      window.addEventListener('resize', function () { self.resize(); });
+
+      var n = t.petalCount || 26;
+      this.list = [];
+      for (var i = 0; i < n; i++) this.list.push(this.make(true));
+      this.loop();
+    },
+
+    resize: function () {
+      var d = window.devicePixelRatio || 1;
+      this.w = window.innerWidth; this.h = window.innerHeight;
+      this.cv.width = this.w * d; this.cv.height = this.h * d;
+      this.cv.style.width = this.w + 'px'; this.cv.style.height = this.h + 'px';
+      this.cx.setTransform(d, 0, 0, d, 0, 0);
+    },
+
+    make: function (anywhere) {
+      var t = D.theme || {};
+      var size = (t.petalSize || 1);
+      var speed = (t.petalSpeed || 1);
+      return {
+        x: Math.random() * this.w,
+        y: anywhere ? Math.random() * this.h : -20,
+        r: (6 + Math.random() * 7) * size,
+        vy: (0.25 + Math.random() * 0.5) * speed,
+        sway: 0.4 + Math.random() * 0.9,
+        phase: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.02,
+        rot: Math.random() * Math.PI * 2,
+        alpha: 0.4 + Math.random() * 0.45
+      };
+    },
+
+    draw: function (p) {
+      var c = this.cx;
+      c.save();
+      c.translate(p.x, p.y);
+      c.rotate(p.rot);
+      c.globalAlpha = p.alpha;
+      c.fillStyle = ((D.theme || {}).petalColor) || '#f7d3dc';
+      c.beginPath();
+      c.moveTo(0, -p.r * 0.5);
+      c.bezierCurveTo(p.r * 0.6, -p.r * 0.5, p.r * 0.5, p.r * 0.5, 0, p.r * 0.6);
+      c.bezierCurveTo(-p.r * 0.5, p.r * 0.5, -p.r * 0.6, -p.r * 0.5, 0, -p.r * 0.5);
+      c.fill();
+      c.restore();
+    },
+
+    loop: function () {
+      var self = this;
+      this.cx.clearRect(0, 0, this.w, this.h);
+      this.list.forEach(function (p, i) {
+        p.phase += 0.012;
+        p.y += p.vy;
+        p.x += Math.sin(p.phase) * p.sway;
+        p.rot += p.spin;
+        if (p.y - p.r > self.h || p.x < -60 || p.x > self.w + 60) {
+          self.list[i] = self.make(false);
+        } else {
+          self.draw(p);
+        }
+      });
+      this.raf = requestAnimationFrame(function () { self.loop(); });
+    }
+  };
+
   /* ---------- 날짜 계산 ---------- */
   var today = new Date(); today.setHours(0, 0, 0, 0);
 
@@ -571,7 +654,7 @@
     var box = el('div', 'hall');
     box.appendChild(svg);
     var wrap = el('div');
-    wrap.style.cssText = 'flex:1;min-height:0;display:flex;flex-direction:column;gap:7px';
+    wrap.style.cssText = 'flex:0 0 auto;display:flex;flex-direction:column;gap:8px';
     wrap.appendChild(box);
     var tcl = (D.theme || {}).colors || {};
     var lg = el('div', 'legend',
@@ -848,6 +931,7 @@
       go('home');
       Player.play(0);
       Notice.start();
+      Petals.start();
     };
 
     $('#showsClose').onclick = function () { $('#shows').hidden = true; };
