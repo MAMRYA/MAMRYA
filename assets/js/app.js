@@ -579,6 +579,8 @@
     bar.appendChild(go);
     v.appendChild(bar);
 
+    v.appendChild(el('div', 'gapline'));
+
     var links = el('div', 'links');
     (D.links || []).forEach(function (l) {
       var a = el('a', null, esc(l.label));
