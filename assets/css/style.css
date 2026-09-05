@@ -260,8 +260,12 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .sect__more{ color:var(--moss-deep); font:inherit; font-size:var(--fz-s); cursor:pointer }
 
 .posters{
-  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px;
-  margin-top:6px; padding:10px 20px 24px; margin-left:-20px; margin-right:-20px;
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:var(--poster-gap,8px);
+  margin-top:6px;
+  padding:10px var(--poster-pad,20px) 24px;
+  margin-left:calc(var(--poster-pad,20px) * -1);
+  margin-right:calc(var(--poster-pad,20px) * -1);
 }
 .poster__img{ aspect-ratio:3/4; border-radius:6px; background:var(--cream) center/cover no-repeat }
 .poster:nth-child(2) .poster__img{ background-color:var(--leaf) }
