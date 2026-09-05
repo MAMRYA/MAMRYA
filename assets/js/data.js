@@ -8,12 +8,33 @@ var DATA = {
 
   /* --- 기본 정보 ------------------------------------------------ */
   site: {
+    stage: 'ONMAEUM STAGE',                 // 홈 왼쪽 위에 뜨는 사이트 이름
     title: 'MAMRYA',                       // 작품명
     subtitle: 'musical · 맘랸 · 2026',      // 작품명 아래 한 줄
     hall: '온마음홀 1관',                    // 공연장 이름
     url: 'onmaeum-rian.github.io',          // 창 위 주소창에 보일 글자
     background: 'assets/img/background.jpg',// 배경 사진 (없으면 연둣빛 배경)
     poster: 'assets/img/poster.jpg'         // 정보창에 들어갈 자컾 사진
+  },
+
+  /* --- 디자인 (관리자 페이지에서 바꿀 수 있습니다) ------------------ */
+  theme: {
+    font: 'pretendard',   // pretendard / gowun / myeongjo / gaegu
+    fontSize: 11.5,       // 기본 글자 크기 (px)
+    windowW: 1120,        // 창 최대 가로 (px)
+    windowH: 720,         // 창 최대 세로 (px)
+    glass: 0.5,           // 창 투명도 (0~1, 낮을수록 배경이 많이 비침)
+    colors: {
+      wall:  '#c3d6a9',   // 배경색 (배경 사진이 없을 때)
+      ink:   '#17340a',   // 글자색
+      moss:  '#639922',   // 강조색 (선택된 것, 초록 버튼)
+      amber: '#fac775',   // 포인트색 (배너, R석)
+      leaf:  '#c0dd97',   // 보조 초록 (S석)
+      cream: '#faeeda',   // 포스터 색 1
+      mint:  '#eaf3de',   // 포스터 색 2
+      butter:'#f7efc9',   // 포스터 색 3
+      sky:   '#e8eff5'    // 포스터 색 4
+    }
   },
 
   /* --- 정보창 항목 (원하는 만큼 늘리거나 지울 수 있음) ------------- */

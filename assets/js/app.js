@@ -21,6 +21,71 @@
   };
   var bgImg = function (src) { return src ? 'background-image:url(\'' + src + '\')' : ''; };
 
+
+  /* ---------- 디자인 적용 ---------- */
+  var FONTS = {
+    pretendard: { name: "'Pretendard Variable',Pretendard", url: '' },
+    gowun:      { name: "'Gowun Dodum'", url: 'https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap' },
+    myeongjo:   { name: "'Nanum Myeongjo'", url: 'https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap' },
+    gaegu:      { name: "'Gaegu'", url: 'https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap' }
+  };
+
+  function hex2rgb(h) {
+    h = String(h || '').replace('#', '');
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    var n = parseInt(h, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  function rgba(hex, a) {
+    var c = hex2rgb(hex);
+    return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')';
+  }
+  function shade(hex, amt) {
+    var c = hex2rgb(hex).map(function (v) {
+      return Math.max(0, Math.min(255, Math.round(v + amt)));
+    });
+    return 'rgb(' + c.join(',') + ')';
+  }
+
+  function applyTheme() {
+    var t = D.theme || {};
+    var c = t.colors || {};
+    var r = document.documentElement.style;
+
+    if (c.ink) {
+      r.setProperty('--ink', c.ink);
+      [90, 75, 55, 40, 28, 12, 7].forEach(function (n) {
+        r.setProperty('--ink-' + ('0' + n).slice(-2), rgba(c.ink, n / 100));
+      });
+    }
+    if (c.wall)  r.setProperty('--wall', c.wall);
+    if (c.moss)  { r.setProperty('--moss', c.moss); r.setProperty('--moss-deep', shade(c.moss, -40)); }
+    if (c.amber) { r.setProperty('--amber', c.amber); r.setProperty('--amber-deep', shade(c.amber, -60)); }
+    if (c.cream) r.setProperty('--cream', c.cream);
+    if (c.mint)  r.setProperty('--leaf', c.mint);
+    if (c.butter)r.setProperty('--butter', c.butter);
+    if (c.sky)   r.setProperty('--sky', c.sky);
+    if (c.leaf)  r.setProperty('--seat-s', c.leaf);
+
+    if (t.fontSize) {
+      r.setProperty('--fz', t.fontSize + 'px');
+      r.setProperty('--fz-s', (t.fontSize - 1) + 'px');
+      r.setProperty('--fz-l', (t.fontSize + 1.5) + 'px');
+      r.setProperty('--fz-xl', (t.fontSize + 3.5) + 'px');
+    }
+    if (t.windowW) r.setProperty('--win-w', t.windowW + 'px');
+    if (t.windowH) r.setProperty('--win-h', t.windowH + 'px');
+    if (t.glass != null) r.setProperty('--glass', 'rgba(255,255,255,' + t.glass + ')');
+
+    var f = FONTS[t.font] || FONTS.pretendard;
+    if (f.url) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet'; link.href = f.url;
+      document.head.appendChild(link);
+    }
+    document.body.style.fontFamily = f.name + ",-apple-system,system-ui,sans-serif";
+  }
+
   /* ---------- 날짜 계산 ---------- */
   var today = new Date(); today.setHours(0, 0, 0, 0);
 
@@ -148,7 +213,7 @@
     v.innerHTML = '';
 
     var head = el('div', 'head');
-    head.appendChild(el('span', 'head__name', 'ONMAEUM STAGE'));
+    head.appendChild(el('span', 'head__name', esc((D.site || {}).stage || '')));
     var seg = el('div', 'seg');
     ['전체', '봄', '여름', '가을', '겨울'].forEach(function (t, i) {
       var b = el('button', i === 0 ? 'is-on' : '', t);
@@ -417,7 +482,8 @@
 
     var h = 52 + rows.length * 22 + 6;
     add('rect', { x: 18, y: 8, width: 264, height: h, rx: 12, fill: 'rgba(255,255,255,.45)', stroke: 'rgba(23,52,4,.16)', 'stroke-width': 1.2 });
-    add('path', { d: 'M 58 46 Q 150 16 242 46 L 242 34 Q 150 4 58 34 Z', fill: 'rgba(192,221,151,.55)', stroke: 'rgba(39,80,10,.25)', 'stroke-width': .8 });
+    var th = (D.theme || {}).colors || {};
+    add('path', { d: 'M 58 46 Q 150 16 242 46 L 242 34 Q 150 4 58 34 Z', fill: rgba(th.leaf || '#c0dd97', .55), stroke: rgba(th.moss || '#639922', .35), 'stroke-width': .8 });
     add('text', { x: 150, y: 30, 'text-anchor': 'middle', 'font-size': 9, 'letter-spacing': 3, fill: 'rgba(39,80,10,.75)' }, 'STAGE');
     add('path', { d: 'M 18 76 L 10 84 L 18 92 Z', fill: 'rgba(23,52,4,.18)' });
     add('path', { d: 'M 282 76 L 290 84 L 282 92 Z', fill: 'rgba(23,52,4,.18)' });
@@ -432,7 +498,10 @@
         var open = line.charAt(i) !== 'x';
         var id = rowName + (i + 1);
         var on = pick.seats.indexOf(id) > -1;
-        var fill = !open ? 'rgba(23,52,4,.12)' : on ? '#ba7517' : (ri < 2 ? '#fac775' : '#c0dd97');
+        var tc = (D.theme || {}).colors || {};
+        var fill = !open ? rgba(tc.ink || '#17340a', .12)
+          : on ? shade(tc.amber || '#fac775', -60)
+          : (ri < 2 ? (tc.amber || '#fac775') : (tc.leaf || '#c0dd97'));
         var r = add('rect', {
           x: 70 + i * 20, y: base - 6 + dip[i], width: 16, height: 12, rx: 2,
           fill: fill, class: 'seat' + (open ? '' : ' seat--x')
@@ -461,11 +530,12 @@
     var wrap = el('div');
     wrap.style.cssText = 'flex:1;min-height:0;display:flex;flex-direction:column;gap:7px';
     wrap.appendChild(box);
+    var tcl = (D.theme || {}).colors || {};
     var lg = el('div', 'legend',
-      '<span><i style="background:#fac775"></i>R석</span>' +
-      '<span><i style="background:#c0dd97"></i>S석</span>' +
-      '<span><i style="background:#ba7517"></i>선택</span>' +
-      '<span><i style="background:rgba(23,52,4,.12)"></i>매진</span>');
+      '<span><i style="background:' + (tcl.amber || '#fac775') + '"></i>R석</span>' +
+      '<span><i style="background:' + (tcl.leaf || '#c0dd97') + '"></i>S석</span>' +
+      '<span><i style="background:' + shade(tcl.amber || '#fac775', -60) + '"></i>선택</span>' +
+      '<span><i style="background:' + rgba(tcl.ink || '#17340a', .12) + '"></i>매진</span>');
     wrap.appendChild(lg);
     return wrap;
   }
@@ -705,6 +775,7 @@
 
   /* ---------- 시작 ---------- */
   function boot() {
+    applyTheme();
     var s = D.site || {};
     if (s.background) $('#bg').style.cssText = bgImg(s.background);
     if (s.title) document.title = s.title;

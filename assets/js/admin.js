@@ -23,6 +23,37 @@
     w.appendChild(i);
     return w;
   }
+  function colorField(label, value, onInput) {
+    var w = el('div');
+    w.appendChild(el('label', null, label));
+    var box = el('div', 'colorbox');
+    var c = document.createElement('input');
+    c.type = 'color'; c.value = value || '#ffffff';
+    var t = document.createElement('input');
+    t.type = 'text'; t.value = value || '';
+    c.addEventListener('input', function () { t.value = c.value; onInput(c.value); });
+    t.addEventListener('input', function () {
+      if (/^#[0-9a-fA-F]{6}$/.test(t.value)) { c.value = t.value; onInput(t.value); }
+    });
+    box.appendChild(c); box.appendChild(t);
+    w.appendChild(box);
+    return w;
+  }
+  function selectField(label, value, opts, onInput) {
+    var w = el('div');
+    w.appendChild(el('label', null, label));
+    var sel = document.createElement('select');
+    opts.forEach(function (o) {
+      var op = document.createElement('option');
+      op.value = o[0]; op.textContent = o[1];
+      sel.appendChild(op);
+    });
+    sel.value = value;
+    sel.onchange = function () { onInput(sel.value); };
+    w.appendChild(sel);
+    return w;
+  }
+
   function card(title, hint) {
     var c = el('div', 'card');
     c.appendChild(el('h2', null, title));
@@ -69,9 +100,37 @@
   function build() {
     root.innerHTML = '';
 
+    // 디자인
+    if (!D.theme) D.theme = { font:'pretendard', fontSize:11.5, windowW:1120, windowH:720, glass:0.5, colors:{} };
+    if (!D.theme.colors) D.theme.colors = {};
+    var T = D.theme, TC = T.colors;
+    var c0 = card('디자인', '색과 글자 크기, 창 크기를 바꿉니다. 배경 사진은 아래 기본 정보에서 넣습니다.');
+    var g0a = grid(c0, 'g4');
+    g0a.appendChild(selectField('글꼴', T.font || 'pretendard', [
+      ['pretendard', '프리텐다드 (기본)'], ['gowun', '고운돋움'],
+      ['myeongjo', '나눔명조'], ['gaegu', '개구 (손글씨)']
+    ], function (v) { T.font = v; }));
+    g0a.appendChild(field('글자 크기 (px)', T.fontSize, function (v) { T.fontSize = Number(v) || 11.5; }, 'number'));
+    g0a.appendChild(field('창 가로 (px)', T.windowW, function (v) { T.windowW = Number(v) || 1120; }, 'number'));
+    g0a.appendChild(field('창 세로 (px)', T.windowH, function (v) { T.windowH = Number(v) || 720; }, 'number'));
+    var g0b = grid(c0, 'g4');
+    g0b.appendChild(field('창 투명도 (0~1)', T.glass, function (v) { T.glass = Number(v); }, 'number'));
+    g0b.appendChild(colorField('배경색', TC.wall, function (v) { TC.wall = v; }));
+    g0b.appendChild(colorField('글자색', TC.ink, function (v) { TC.ink = v; }));
+    g0b.appendChild(colorField('강조색 (초록)', TC.moss, function (v) { TC.moss = v; }));
+    var g0c = grid(c0, 'g4');
+    g0c.appendChild(colorField('포인트색 (노랑·R석)', TC.amber, function (v) { TC.amber = v; }));
+    g0c.appendChild(colorField('보조 초록 (S석)', TC.leaf, function (v) { TC.leaf = v; }));
+    g0c.appendChild(colorField('포스터 색 1', TC.cream, function (v) { TC.cream = v; }));
+    g0c.appendChild(colorField('포스터 색 2', TC.mint, function (v) { TC.mint = v; }));
+    var g0d = grid(c0, 'g4');
+    g0d.appendChild(colorField('포스터 색 3', TC.butter, function (v) { TC.butter = v; }));
+    g0d.appendChild(colorField('포스터 색 4', TC.sky, function (v) { TC.sky = v; }));
+
     // 기본 정보
     var c1 = card('기본 정보', '사이트 맨 위와 정보창에 쓰이는 내용입니다.');
     var g1 = grid(c1, 'g2');
+    g1.appendChild(field('사이트 이름 (홈 왼쪽 위)', D.site.stage, function (v) { D.site.stage = v; }));
     g1.appendChild(field('작품명', D.site.title, function (v) { D.site.title = v; }));
     g1.appendChild(field('작품명 아래 한 줄', D.site.subtitle, function (v) { D.site.subtitle = v; }));
     g1.appendChild(field('공연장', D.site.hall, function (v) { D.site.hall = v; }));
