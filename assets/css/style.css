@@ -261,7 +261,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 
 .posters{
   display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px;
-  margin-top:6px; padding:8px 14px 26px; margin-left:-14px; margin-right:-14px;
+  margin-top:6px; padding:10px 20px 24px; margin-left:-20px; margin-right:-20px;
 }
 .poster__img{ aspect-ratio:3/4; border-radius:6px; background:var(--cream) center/cover no-repeat }
 .poster:nth-child(2) .poster__img{ background-color:var(--leaf) }
@@ -622,7 +622,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   }
   .poster:hover{ z-index:9 }
   .poster:hover .poster__img{
-    transform:scale(1.22);
+    transform:scale(var(--poster-zoom,1.1));
     box-shadow:0 12px 28px rgba(23,52,4,.28);
   }
 }
