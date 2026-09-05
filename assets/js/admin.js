@@ -134,6 +134,33 @@
     g0e.appendChild(field('배너 자동 넘김 (초, 0이면 끔)', T.bannerSeconds == null ? 6 : T.bannerSeconds,
       function (v) { T.bannerSeconds = Number(v); }, 'number'));
 
+    var g0f = grid(c0, 'g2');
+    g0f.appendChild(selectField('배너 사진 위 그늘', T.bannerShade || 'dark',
+      [['dark', '검정 (밝은 사진에 적합)'], ['light', '흰색 (어두운 사진에 적합)'], ['none', '없음']],
+      function (v) { T.bannerShade = v; }));
+    g0f.appendChild(field('그늘 진하기 (0~1)', T.bannerShadeAmount == null ? 0.55 : T.bannerShadeAmount,
+      function (v) { T.bannerShadeAmount = Number(v); }, 'number'));
+
+    var c0p = card('꽃잎', '배경 위에 꽃잎이 천천히 흩날립니다.');
+    var g0p = grid(c0p, 'g3');
+    g0p.appendChild(selectField('꽃잎', T.petals === false ? 'off' : 'on',
+      [['on', '켜기'], ['off', '끄기']], function (v) { T.petals = (v === 'on'); }));
+    g0p.appendChild(field('개수', T.petalCount == null ? 26 : T.petalCount,
+      function (v) { T.petalCount = Number(v); }, 'number'));
+    g0p.appendChild(colorField('색', T.petalColor || '#f7d3dc', function (v) { T.petalColor = v; }));
+    var g0s = grid(c0, 'g2');
+    g0s.appendChild(selectField('배너 글자 뒤 그라데이션', T.bannerScrim || 'dark',
+      [['dark', '검정 (밝은 사진에 어울림)'], ['light', '흰색 (어두운 사진에 어울림)'], ['none', '없음']],
+      function (v) { T.bannerScrim = v; }));
+    g0s.appendChild(field('그라데이션 진하기 (0~1)', T.bannerScrimStrength == null ? 0.55 : T.bannerScrimStrength,
+      function (v) { T.bannerScrimStrength = Number(v); }, 'number'));
+
+    var g0p2 = grid(c0p, 'g2');
+    g0p2.appendChild(field('속도 (1이 기본, 0.5 느리게, 2 빠르게)', T.petalSpeed == null ? 1 : T.petalSpeed,
+      function (v) { T.petalSpeed = Number(v); }, 'number'));
+    g0p2.appendChild(field('크기 (1이 기본)', T.petalSize == null ? 1 : T.petalSize,
+      function (v) { T.petalSize = Number(v); }, 'number'));
+
     // 기본 정보
     var c1 = card('기본 정보', '사이트 맨 위와 정보창에 쓰이는 내용입니다.');
     var g1 = grid(c1, 'g2');
@@ -144,6 +171,19 @@
     g1.appendChild(field('주소창에 보일 글자', D.site.url, function (v) { D.site.url = v; }));
     g1.appendChild(field('배경 사진 경로', D.site.background, function (v) { D.site.background = v; }));
     g1.appendChild(field('배경 동영상 경로 (mp4)', D.site.backgroundVideo, function (v) { D.site.backgroundVideo = v; }));
+    g1.appendChild(field('링크 미리보기 사진 (1200x630)', D.site.ogImage, function (v) { D.site.ogImage = v; }));
+    g1.appendChild(field('탭 아이콘 (파비콘)', D.site.favicon, function (v) { D.site.favicon = v; }));
+    g1.appendChild(field('마우스 커서 그림 (32x32 png)', D.site.cursor, function (v) { D.site.cursor = v; }));
+    g1.appendChild(field('버튼 위 커서 그림', D.site.cursorHover, function (v) { D.site.cursorHover = v; }));
+
+    var c1b = card('링크 미리보기 · 아이콘 · 커서',
+      '링크 미리보기는 트위터에 주소를 올렸을 때 뜨는 사진입니다. 1200x630 크기를 권합니다. ' +
+      '커서 그림은 32x32 png (배경 투명)로 만드세요.');
+    var g1b = grid(c1b, 'g2');
+    g1b.appendChild(field('링크 미리보기 사진 경로', D.site.ogImage, function (v) { D.site.ogImage = v; }));
+    g1b.appendChild(field('탭 아이콘 (파비콘) 경로', D.site.favicon, function (v) { D.site.favicon = v; }));
+    g1b.appendChild(field('마우스 커서 그림 경로', D.site.cursor, function (v) { D.site.cursor = v; }));
+    g1b.appendChild(field('버튼 위 커서 그림 경로', D.site.cursorHover, function (v) { D.site.cursorHover = v; }));
     g1.appendChild(field('자컾 사진 경로', D.site.poster, function (v) { D.site.poster = v; }));
 
     // 정보창 항목
@@ -247,11 +287,16 @@
     }, { time: '', left: 0 }, function (it) { return it.time || '새 회차'; });
 
     // 링크
-    var c12 = card('바깥 링크', '예매창 아래에 뜨는 링크입니다.');
-    list(c12, D.links, 'g2', function (g, it) {
+    var c12 = card('바깥 링크',
+      '예매창 아래에 뜨는 링크입니다. 묶음 번호가 같으면 한 줄에 나란히 놓입니다. ' +
+      '제목은 그 묶음 위에 뜹니다 (묶음의 첫 항목에만 적으면 됩니다).');
+    list(c12, D.links, 'g4', function (g, it) {
       g.appendChild(field('이름', it.label, function (v) { it.label = v; }));
       g.appendChild(field('주소', it.url, function (v) { it.url = v; }));
-    }, { label: '', url: '' }, function (it) { return it.label || '새 링크'; });
+      g.appendChild(field('묶음 번호', it.group == null ? 1 : it.group,
+        function (v) { it.group = Number(v) || 1; }, 'number'));
+      g.appendChild(field('묶음 제목', it.title, function (v) { it.title = v; }));
+    }, { label: '', url: '', group: 1, title: '' }, function (it) { return it.label || '새 링크'; });
 
     // 대화
     var c13 = card('대화 세트', '들어올 때마다 하나가 무작위로 뜹니다. 한 줄에 하나씩, 앞에 이름을 적으세요.');
