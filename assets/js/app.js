@@ -47,6 +47,68 @@
     return 'rgb(' + c.join(',') + ')';
   }
 
+  function applySite() {
+    var s = D.site || {};
+    var head = document.head;
+
+    if (s.favicon) {
+      var fav = document.createElement('link');
+      fav.rel = 'icon'; fav.href = s.favicon;
+      head.appendChild(fav);
+    }
+    if (s.ogImage) {
+      ['og:image', 'twitter:image'].forEach(function (k) {
+        var m = document.createElement('meta');
+        if (k.indexOf('twitter') === 0) m.name = k; else m.setAttribute('property', k);
+        m.content = new URL(s.ogImage, location.href).href;
+        head.appendChild(m);
+      });
+      var tw = document.createElement('meta');
+      tw.name = 'twitter:card'; tw.content = 'summary_large_image';
+      head.appendChild(tw);
+    }
+    if (s.cursor) {
+      document.documentElement.style.setProperty('--cursor', "url('" + s.cursor + "'), auto");
+      document.body.classList.add('has-cursor');
+    }
+    if (s.cursorHover) {
+      document.documentElement.style.setProperty('--cursor-hover', "url('" + s.cursorHover + "'), pointer");
+    }
+  }
+
+  function applyHead() {
+    var s = D.site || {};
+    function meta(prop, val) {
+      if (!val) return;
+      var m = document.querySelector('meta[property="' + prop + '"]');
+      if (!m) { m = document.createElement('meta'); m.setAttribute('property', prop); document.head.appendChild(m); }
+      m.setAttribute('content', val);
+    }
+    var base = location.href.replace(/[^/]*$/, '');
+    if (s.ogImage) {
+      var abs = /^https?:/.test(s.ogImage) ? s.ogImage : base + s.ogImage;
+      meta('og:image', abs);
+      var tw = document.querySelector('meta[name="twitter:card"]');
+      if (!tw) { tw = document.createElement('meta'); tw.name = 'twitter:card'; document.head.appendChild(tw); }
+      tw.content = 'summary_large_image';
+    }
+    if (s.favicon) {
+      var link = document.querySelector('link[rel="icon"]');
+      if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+      link.href = s.favicon;
+    }
+    if (s.cursor) {
+      var css = 'body{cursor:url(' + s.cursor + '),auto}';
+      if (s.cursorHover) {
+        css += 'a,button,summary,[role=button],.seat,.cell--has,.castcard,.row,.chip,.poster{cursor:url('
+             + s.cursorHover + '),pointer}';
+      }
+      var st = document.createElement('style');
+      st.textContent = css;
+      document.head.appendChild(st);
+    }
+  }
+
   function applyTheme() {
     var t = D.theme || {};
     var c = t.colors || {};
@@ -78,6 +140,7 @@
     if (t.windowW) r.setProperty('--win-w', t.windowW + 'px');
     if (t.windowH) r.setProperty('--win-h', t.windowH + 'px');
     if (t.glass != null) r.setProperty('--glass', 'rgba(255,255,255,' + t.glass + ')');
+    if (t.bannerScrimStrength != null) r.setProperty('--scrim', t.bannerScrimStrength);
 
     var f = FONTS[t.font] || FONTS.pretendard;
     if (f.url) {
@@ -324,8 +387,12 @@
     function drawBanner() {
       var b = banners[bannerAt] || {};
       ban.style.cssText = bgImg(b.image);
+      var th = D.theme || {};
+      var scrim = th.bannerScrim || 'dark';
+      ban.className = 'banner banner--' + scrim;
       ban.innerHTML =
-        '<div><p class="banner__tag">' + esc(b.tag) + '</p>' +
+        (scrim === 'none' ? '' : '<span class="banner__scrim"></span>') +
+        '<div class="banner__text"><p class="banner__tag">' + esc(b.tag) + '</p>' +
         '<p class="banner__title">' + esc(b.title) + '</p>' +
         '<p class="banner__note">' + esc(b.note) + '</p></div>';
       if (banners.length > 1) {
@@ -581,14 +648,29 @@
 
     v.appendChild(el('div', 'gapline'));
 
-    var links = el('div', 'links');
+    var groups = {};
+    var order = [];
     (D.links || []).forEach(function (l) {
-      var a = el('a', null, esc(l.label));
-      a.href = l.url || '#';
-      if (a.href.indexOf('#') !== 0) { a.target = '_blank'; a.rel = 'noopener'; }
-      links.appendChild(a);
+      var g = l.group == null ? 1 : l.group;
+      if (!groups[g]) { groups[g] = { title: '', items: [] }; order.push(g); }
+      if (!groups[g].title && l.title) groups[g].title = l.title;
+      groups[g].items.push(l);
     });
-    v.appendChild(links);
+
+    var wrapL = el('div', 'linkwrap');
+    order.forEach(function (g) {
+      var grp = groups[g];
+      if (grp.title) wrapL.appendChild(el('p', 'linkwrap__title', esc(grp.title)));
+      var row = el('div', 'links');
+      grp.items.forEach(function (l) {
+        var a = el('a', null, esc(l.label));
+        a.href = l.url || '#';
+        if (a.href.indexOf('#') !== 0) { a.target = '_blank'; a.rel = 'noopener'; }
+        row.appendChild(a);
+      });
+      wrapL.appendChild(row);
+    });
+    v.appendChild(wrapL);
   }
 
   function buildHall() {
@@ -904,6 +986,7 @@
   /* ---------- 시작 ---------- */
   function boot() {
     applyTheme();
+    applySite();
     var s = D.site || {};
     if (s.background) $('#bg').style.cssText = bgImg(s.background);
     if (s.backgroundVideo) {
