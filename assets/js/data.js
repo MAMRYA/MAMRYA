@@ -11,7 +11,7 @@ var DATA = {
     subtitle: "musical · 맘랸 · 2026",
     hall: "MAMRYA홀 1관",
     url: "onmaeum-rian.github.io",
-    background: "assets/img /해바라기 타입.png",
+    background: "assets/img/해바라기 타입.png",
     poster: "assets/img/poster.jpg"
   },
   theme: {
