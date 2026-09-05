@@ -73,6 +73,8 @@
       r.setProperty('--fz-l', (t.fontSize + 1.5) + 'px');
       r.setProperty('--fz-xl', (t.fontSize + 3.5) + 'px');
     }
+    if (t.infoGap != null) r.setProperty('--info-gap', t.infoGap + 'px');
+    if (t.infoLine != null) r.setProperty('--info-line', t.infoLine);
     if (t.windowW) r.setProperty('--win-w', t.windowW + 'px');
     if (t.windowH) r.setProperty('--win-h', t.windowH + 'px');
     if (t.glass != null) r.setProperty('--glass', 'rgba(255,255,255,' + t.glass + ')');
@@ -126,6 +128,12 @@
       w.appendChild(el('dd', null, esc(r[1])));
       box.appendChild(w);
     });
+
+    var hintEl = document.querySelector('.ticket__hint');
+    if (hintEl) {
+      if (t.hint) hintEl.textContent = t.hint;
+      else hintEl.style.display = 'none';
+    }
 
     var bc = $('#gateBarcode'), widths = [2, 1, 3, 1, 2, 1, 3, 2, 1, 2, 1, 3, 1, 2];
     widths.forEach(function (w) {
@@ -207,6 +215,7 @@
 
   /* ---------- 홈 ---------- */
   var bannerAt = 0;
+  var bannerTimer = null;
 
   function pageHome() {
     var v = $('#view');
@@ -253,8 +262,23 @@
     drawBanner();
     v.appendChild(ban);
 
+    if (bannerTimer) { clearInterval(bannerTimer); bannerTimer = null; }
+    var secs = ((D.theme || {}).bannerSeconds) || 0;
+    if (secs > 0 && banners.length > 1) {
+      bannerTimer = setInterval(function () {
+        if (!document.body.contains(ban)) { clearInterval(bannerTimer); return; }
+        bannerAt = (bannerAt + 1) % banners.length;
+        drawBanner();
+      }, secs * 1000);
+    }
+
     var sec = el('div');
-    sec.appendChild(el('p', 'sect__label', '<span>공연 중</span><span class="sect__more">전체보기</span>'));
+    var lab = el('p', 'sect__label', '<span>공연 중</span>');
+    var more = el('button', 'sect__more', '전체보기');
+    more.type = 'button';
+    more.onclick = openShows;
+    lab.appendChild(more);
+    sec.appendChild(lab);
     var grid = el('div', 'posters');
     (D.shows || []).forEach(function (s) {
       var c = el('div', 'poster');
@@ -301,6 +325,25 @@
     w.appendChild(w2);
 
     v.appendChild(w);
+  }
+
+
+  /* ---------- 공연 전체보기 ---------- */
+  function openShows() {
+    var box = $('#shows');
+    var grid = $('#showsGrid');
+    grid.innerHTML = '';
+    (D.shows || []).forEach(function (s) {
+      var c = el('div', 'showcard');
+      var im = el('div', 'showcard__img');
+      if (s.image) im.style.cssText = bgImg(s.image);
+      else im.textContent = '포스터';
+      c.appendChild(im);
+      c.appendChild(el('p', 'showcard__t', esc(s.title)));
+      c.appendChild(el('p', 'showcard__n', esc(s.note)));
+      grid.appendChild(c);
+    });
+    box.hidden = false;
   }
 
   /* ---------- 캘린더 ---------- */
@@ -806,6 +849,11 @@
       Player.play(0);
       Notice.start();
     };
+
+    $('#showsClose').onclick = function () { $('#shows').hidden = true; };
+    $('#shows').addEventListener('click', function (e) {
+      if (e.target === this) this.hidden = true;
+    });
 
     $('#lightboxClose').onclick = function () { Lightbox.close(); };
     $('#lbPrev').onclick = function () { Lightbox.step(-1); };

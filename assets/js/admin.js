@@ -126,6 +126,13 @@
     var g0d = grid(c0, 'g4');
     g0d.appendChild(colorField('포스터 색 3', TC.butter, function (v) { TC.butter = v; }));
     g0d.appendChild(colorField('포스터 색 4', TC.sky, function (v) { TC.sky = v; }));
+    var g0e = grid(c0, 'g3');
+    g0e.appendChild(field('정보창 항목 사이 간격 (px)', T.infoGap == null ? 13 : T.infoGap,
+      function (v) { T.infoGap = Number(v); }, 'number'));
+    g0e.appendChild(field('정보창 줄 높이 (1.2~2.0)', T.infoLine == null ? 1.45 : T.infoLine,
+      function (v) { T.infoLine = Number(v); }, 'number'));
+    g0e.appendChild(field('배너 자동 넘김 (초, 0이면 끔)', T.bannerSeconds == null ? 6 : T.bannerSeconds,
+      function (v) { T.bannerSeconds = Number(v); }, 'number'));
 
     // 기본 정보
     var c1 = card('기본 정보', '사이트 맨 위와 정보창에 쓰이는 내용입니다.');
@@ -165,6 +172,9 @@
     g5.appendChild(field('시간', D.ticket.time, function (v) { D.ticket.time = v; }));
     g5.appendChild(field('좌석', D.ticket.seat, function (v) { D.ticket.seat = v; }));
     g5.appendChild(field('티켓 번호', D.ticket.no, function (v) { D.ticket.no = v; }));
+    var g5b = grid(c5, 'g2');
+    g5b.appendChild(field('맨 아래 안내 문구 (비우면 안 보임)', D.ticket.hint,
+      function (v) { D.ticket.hint = v; }));
 
     // 배너
     var c6 = card('홈 배너', '두 개 이상 넣으면 좌우 화살표로 넘어갑니다.');

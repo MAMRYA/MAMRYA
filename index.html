@@ -16,6 +16,7 @@
 
 <!-- 배경 -->
 <div class="bg" id="bg"></div>
+<video class="bgvid" id="bgvid" autoplay muted loop playsinline hidden></video>
 
 <!-- 1. 대문 티켓 -->
 <div class="gate" id="gate">
@@ -123,6 +124,17 @@
       </form>
     </div>
 
+  </div>
+</div>
+
+<!-- 공연 전체보기 -->
+<div class="shows" id="shows" hidden>
+  <div class="shows__box">
+    <div class="shows__head">
+      <span class="shows__title">공연 중</span>
+      <button class="iconbtn" id="showsClose" type="button" aria-label="닫기">×</button>
+    </div>
+    <div class="shows__grid" id="showsGrid"></div>
   </div>
 </div>
 
