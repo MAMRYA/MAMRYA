@@ -134,7 +134,9 @@
     g0e.appendChild(field('배너 자동 넘김 (초, 0이면 끔)', T.bannerSeconds == null ? 6 : T.bannerSeconds,
       function (v) { T.bannerSeconds = Number(v); }, 'number'));
 
-    var g0f = grid(c0, 'g2');
+    var g0f = grid(c0, 'g3');
+    g0f.appendChild(field('포스터 확대 배율 (1이면 안 커짐)', T.posterZoom == null ? 1.1 : T.posterZoom,
+      function (v) { T.posterZoom = Number(v); }, 'number'));
     g0f.appendChild(selectField('배너 사진 위 그늘', T.bannerShade || 'dark',
       [['dark', '검정 (밝은 사진에 적합)'], ['light', '흰색 (어두운 사진에 적합)'], ['none', '없음']],
       function (v) { T.bannerShade = v; }));
