@@ -12,7 +12,8 @@ var DATA = {
     hall: "MAMRYA홀 1관",
     url: "onmaeum-rian.github.io",
     background: "assets/img/해바라기 타입.png",
-    poster: "assets/img/죠잉님(합본).png"
+    poster: "assets/img/죠잉님(합본).png",
+    backgroundVideo: "assets/video/207783_tiny.mp4"
   },
   theme: {
     font: "pretendard",
