@@ -45,6 +45,18 @@
 /* 숨김 처리 — 이 규칙이 없으면 숨겨야 할 창이 계속 보입니다 */
 [hidden]{ display:none !important }
 
+/* 마우스 커서 (관리자 페이지에서 그림을 지정하면 적용됩니다) */
+body.has-cursor,
+body.has-cursor *{ cursor:var(--cursor, auto) }
+body.has-cursor a,
+body.has-cursor button,
+body.has-cursor .seat,
+body.has-cursor [role="button"],
+body.has-cursor summary,
+body.has-cursor .cell--has,
+body.has-cursor .castcard,
+body.has-cursor .poster{ cursor:var(--cursor-hover, pointer) }
+
 html,body{ height:100% }
 body{
   margin:0;
@@ -215,9 +227,29 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   background:var(--cream) center/cover no-repeat;
   display:flex; align-items:flex-end; padding:13px 15px;
 }
+.banner__scrim{ position:absolute; inset:0; pointer-events:none }
+.banner--dark .banner__scrim{
+  background:linear-gradient(to top,
+    rgba(0,0,0,calc(var(--scrim,.55) * 1)) 0%,
+    rgba(0,0,0,calc(var(--scrim,.55) * .45)) 45%,
+    rgba(0,0,0,0) 78%);
+}
+.banner--light .banner__scrim{
+  background:linear-gradient(to top,
+    rgba(255,255,255,calc(var(--scrim,.55) * 1.4)) 0%,
+    rgba(255,255,255,calc(var(--scrim,.55) * .7)) 45%,
+    rgba(255,255,255,0) 78%);
+}
+.banner__text{ position:relative; z-index:1 }
 .banner__tag{ font-size:var(--fz-s); color:var(--amber-deep); letter-spacing:.1em }
 .banner__title{ font-size:var(--fz-xl); color:var(--ink-90); letter-spacing:.06em; margin-top:4px }
 .banner__note{ font-size:var(--fz-s); color:var(--ink-55); margin-top:2px }
+.banner--dark .banner__tag{ color:#ffd88a }
+.banner--dark .banner__title{ color:#fff }
+.banner--dark .banner__note{ color:rgba(255,255,255,.8) }
+.banner--dark .banner__nav{ color:rgba(255,255,255,.75) }
+.banner--dark .banner__dots i{ background:rgba(255,255,255,.4) }
+.banner--dark .banner__dots i.is-on{ background:#fff }
 .banner__nav{ position:absolute; top:50%; transform:translateY(-50%); color:var(--ink-40); font-size:16px; padding:6px }
 .banner__nav--prev{ left:4px } .banner__nav--next{ right:4px }
 .banner__dots{ position:absolute; left:50%; transform:translateX(-50%); bottom:9px; display:flex; gap:3px }
@@ -334,17 +366,23 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .pickbar__go{ margin-left:auto; background:rgba(23,52,4,.85); color:var(--leaf); border-radius:var(--r-sm); padding:6px 13px; font-size:var(--fz-s) }
 
 .gapline{ height:6px; flex:0 0 auto }
+.linkwrap{ flex:1 1 auto; display:flex; flex-direction:column; gap:5px; min-height:0 }
+.linkwrap .label{ margin:2px 0 0 }
+.linkwrap .links{ min-height:44px }
+.linkwrap{ flex:1 1 auto; display:flex; flex-direction:column; gap:5px; min-height:76px }
+.linkwrap__title{ font-size:var(--fz-s); color:var(--ink-28); letter-spacing:.16em; margin-top:2px }
 .links{
   display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px;
-  flex:1 1 auto; min-height:76px; align-content:stretch;
+  flex:1 1 auto; align-content:stretch;
 }
+.links:only-child a:first-child{ grid-column:1 / -1 }
 .links a{
   text-decoration:none; color:var(--ink-55);
   background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.8);
   border-radius:var(--r-sm); padding:8px 11px; font-size:var(--fz-s);
   display:flex; align-items:center; gap:6px;
 }
-.links a:first-child{ grid-column:1 / -1 }
+.links a:only-child{ grid-column:1 / -1 }
 .links a::after{ content:'↗'; margin-left:auto; color:var(--ink-28) }
 
 /* --- 아이콘 (문자 대체) ------------------------------------------ */
