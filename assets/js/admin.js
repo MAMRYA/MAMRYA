@@ -136,6 +136,7 @@
     g1.appendChild(field('공연장', D.site.hall, function (v) { D.site.hall = v; }));
     g1.appendChild(field('주소창에 보일 글자', D.site.url, function (v) { D.site.url = v; }));
     g1.appendChild(field('배경 사진 경로', D.site.background, function (v) { D.site.background = v; }));
+    g1.appendChild(field('배경 동영상 경로 (mp4)', D.site.backgroundVideo, function (v) { D.site.backgroundVideo = v; }));
     g1.appendChild(field('자컾 사진 경로', D.site.poster, function (v) { D.site.poster = v; }));
 
     // 정보창 항목
