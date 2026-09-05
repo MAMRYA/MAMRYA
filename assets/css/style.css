@@ -200,7 +200,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .seg button.is-on{ background:#fff; color:var(--ink-90) }
 
 .banner{
-  position:relative; flex:0 0 auto; height:148px; border-radius:10px; overflow:hidden;
+  position:relative; flex:0 0 auto; aspect-ratio:3/1; height:auto; border-radius:10px; overflow:hidden;
   background:var(--cream) center/cover no-repeat;
   display:flex; align-items:flex-end; padding:13px 15px;
 }
@@ -453,8 +453,9 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   .drawer[open] .drawer__chev{ transform:rotate(180deg) }
   .drawer__body{ padding:0 11px 11px }
   .drawer__photo{
-    height:104px; border-radius:8px; margin-bottom:8px;
-    background:rgba(255,255,255,.6) center/cover no-repeat;
+    aspect-ratio:3/4; max-height:210px; width:auto; margin:0 auto 10px;
+    border-radius:8px;
+    background:rgba(255,255,255,.6) center/contain no-repeat;
     display:grid; place-items:center; color:var(--ink-28); font-size:var(--fz-s);
   }
   .drawer__rows{ display:grid }
@@ -464,10 +465,15 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   .drawer__rows dd{ color:var(--ink-75); font-size:var(--fz-s) }
 
   .view{ padding:9px 10px 52px }
-  .posters{ grid-template-columns:repeat(3,minmax(0,1fr)) }
-  .posters .poster:nth-child(4){ display:none }
+  .posters{
+    display:flex; grid-template-columns:none; overflow-x:auto; gap:8px;
+    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    padding-bottom:2px; scrollbar-width:none;
+  }
+  .posters::-webkit-scrollbar{ display:none }
+  .posters .poster{ flex:0 0 44%; scroll-snap-align:start }
   .widgets{ grid-template-columns:1fr }
-  .banner{ height:124px }
+  .banner{ aspect-ratio:3/1; height:auto }
   .cal__grid{ grid-auto-rows:minmax(38px,1fr) }
   .cell{ min-height:38px }
   .cast{ grid-template-columns:1fr }
