@@ -295,6 +295,39 @@
     }, { who: 'maeum', text: '' }, function (it) { return it.text ? it.text.slice(0, 14) : '새 대사'; });
   }
 
+
+  /* ---------- 미리보기 ---------- */
+  var pvHtml = null;
+
+  function openPreview() {
+    var pv = document.getElementById('pv');
+    pv.hidden = false;
+    renderPreview();
+  }
+
+  function renderPreview() {
+    var frame = document.getElementById('pvFrame');
+    var msg = document.getElementById('msg');
+
+    function paint(html) {
+      var data = 'var DATA = ' + JSON.stringify(collect()) + ';';
+      var out = html
+        .replace(/<script src="assets\/js\/data\.js"><\/script>/,
+                 '<scr' + 'ipt>' + data + '</scr' + 'ipt>')
+        .replace(/<head>/, '<head><base href="' + location.href.replace(/[^/]*$/, '') + '">');
+      frame.srcdoc = out;
+    }
+
+    if (pvHtml) { paint(pvHtml); return; }
+
+    fetch('index.html')
+      .then(function (r) { return r.text(); })
+      .then(function (t) { pvHtml = t; paint(t); })
+      .catch(function () {
+        msg.textContent = '미리보기는 사이트에 올린 뒤에 됩니다 (내 컴퓨터에서 연 파일은 불가).';
+      });
+  }
+
   /* ---------- 저장 ---------- */
   function collect() {
     var out = JSON.parse(JSON.stringify(D));
@@ -340,6 +373,19 @@
       '   ========================================================= */\n\n' +
       'var DATA = ' + body + ';\n';
   }
+
+  document.getElementById('pvBtn').onclick = openPreview;
+  document.getElementById('pvReload').onclick = renderPreview;
+  document.getElementById('pvClose').onclick = function () {
+    document.getElementById('pv').hidden = true;
+    document.getElementById('pvFrame').srcdoc = '';
+  };
+  document.getElementById('pvPc').onclick = function () {
+    document.getElementById('pv').className = 'pv pv--pc'; renderPreview();
+  };
+  document.getElementById('pvMo').onclick = function () {
+    document.getElementById('pv').className = 'pv pv--mo'; renderPreview();
+  };
 
   document.getElementById('saveBtn').onclick = function () {
     var text = toFile(collect());
