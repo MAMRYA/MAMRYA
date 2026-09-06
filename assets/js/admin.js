@@ -113,6 +113,8 @@
     g0a.appendChild(field('글자 크기 (px)', T.fontSize, function (v) { T.fontSize = Number(v) || 11.5; }, 'number'));
     g0a.appendChild(field('창 가로 (px)', T.windowW, function (v) { T.windowW = Number(v) || 1120; }, 'number'));
     g0a.appendChild(field('창 세로 (px)', T.windowH, function (v) { T.windowH = Number(v) || 720; }, 'number'));
+    g0a.appendChild(field('정보창 가로 (px)', T.sideWidth == null ? 168 : T.sideWidth,
+      function (v) { T.sideWidth = Number(v) || 168; }, 'number'));
     var g0b = grid(c0, 'g4');
     g0b.appendChild(field('창 투명도 (0~1)', T.glass, function (v) { T.glass = Number(v); }, 'number'));
     g0b.appendChild(colorField('배경색', TC.wall, function (v) { TC.wall = v; }));
@@ -137,6 +139,8 @@
     var g0f = grid(c0, 'g3');
     g0f.appendChild(field('포스터 확대 배율 (1이면 안 커짐)', T.posterZoom == null ? 1.1 : T.posterZoom,
       function (v) { T.posterZoom = Number(v); }, 'number'));
+    g0f.appendChild(field('한 줄에 놓을 포스터 개수', T.posterPerRow == null ? 4 : T.posterPerRow,
+      function (v) { T.posterPerRow = Number(v) || 4; }, 'number'));
     g0f.appendChild(field('포스터 사이 간격 (px)', T.posterGap == null ? 8 : T.posterGap,
       function (v) { T.posterGap = Number(v); }, 'number'));
     g0f.appendChild(field('포스터 좌우 여백 (px)', T.posterPad == null ? 20 : T.posterPad,

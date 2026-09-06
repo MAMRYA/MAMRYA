@@ -138,6 +138,8 @@
     if (t.infoGap != null) r.setProperty('--info-gap', t.infoGap + 'px');
     if (t.infoLine != null) r.setProperty('--info-line', t.infoLine);
     if (t.posterZoom != null) r.setProperty('--poster-zoom', t.posterZoom);
+    if (t.sideWidth != null) r.setProperty('--side-w', t.sideWidth + 'px');
+    if (t.posterPerRow != null) r.setProperty('--poster-cols', t.posterPerRow);
     if (t.posterGap != null) r.setProperty('--poster-gap', t.posterGap + 'px');
     if (t.posterPad != null) r.setProperty('--poster-pad', t.posterPad + 'px');
     if (t.windowW) r.setProperty('--win-w', t.windowW + 'px');
@@ -433,10 +435,14 @@
     lab.appendChild(more);
     sec.appendChild(lab);
     var grid = el('div', 'posters');
-    (D.shows || []).forEach(function (s) {
+    var cols = ((D.theme || {}).posterPerRow) || 4;
+    (D.shows || []).forEach(function (s, i) {
       var c = el('div', 'poster');
       var im = el('div', 'poster__img');
       if (s.image) im.style.cssText = bgImg(s.image);
+      var at = i % cols;
+      im.style.transformOrigin =
+        at === 0 ? 'left bottom' : (at === cols - 1 ? 'right bottom' : 'center bottom');
       c.appendChild(im);
       c.appendChild(el('p', 'poster__t', esc(s.title)));
       c.appendChild(el('p', 'poster__n', esc(s.note)));
